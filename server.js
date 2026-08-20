@@ -5,8 +5,10 @@ import helmet from 'helmet';
 // import dotenv from 'dotenv';
 
 import { connectDB } from './config/db.js';
-import healthRoutes from './routes/health.routes.js';
+import healthRoutes from './routes/healthRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import sessionRoutes from './routes/sessionRoutes.js';
+
 
 // dotenv.config();
 
@@ -20,6 +22,8 @@ app.use(express.json());         // parses incoming JSON request bodies into req
 
 app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/sessions', sessionRoutes);
+
 
 // --- 404 handler ---
 // If nothing above matched, the route doesn't exist.
