@@ -10,7 +10,7 @@ const toPublicUser = (user) => ({
 
 /**
  * Factory that builds a register handler fixed to one role.
- * The role is baked in at ROUTE DEFINITION time (see auth.routes.js),
+ * The role is baked in at ROUTE DEFINITION time
  * never read from the request body — that's what makes /register/student
  * and /register/lecturer safe from role self-assignment.
  */

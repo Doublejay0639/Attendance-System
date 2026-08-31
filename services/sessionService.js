@@ -7,22 +7,30 @@ import { AppError } from '../utils/appError.js';
  */
 export const createSession = async (
   lecturerId,
-  { courseName, courseCode, duration, requireFaceVerification }
+  { courseName, courseCode, location, duration, attendanceWindowMinutes, requireFaceVerification }
 ) => {
   const lecturer = await User.findById(lecturerId).select('name');
   if (!lecturer) {
-    // Edge case: token was valid, but the account no longer exists
-    // (e.g. deleted between login and this request).
+    //token was valid, but the account no longer exists
     throw new AppError('Lecturer account not found', 404);
   }
+
+  const dateTime = new Date();
+
+  const attendanceClosesAt = new Date(
+    dateTime.getTime() + attendanceWindowMinutes * 60 * 1000
+  );
 
   const session = await Session.create({
     lecturerId,
     lecturerName: lecturer.name,
     courseName,
     courseCode,
-    dateTime: new Date(),
+    location,
+    dateTime,
     duration,
+    attendanceWindowMinutes,
+    attendanceClosesAt,
     status: 'active',
     requireFaceVerification: requireFaceVerification ?? true,
   });

@@ -11,10 +11,7 @@ const sessionSchema = new mongoose.Schema(
       required: true,
     },
     // Snapshot of the lecturer's name AT THE TIME the session was
-    // created, not a live lookup. A session is a
-    // historical record. if
-    // the lecturer's profile name changes later, old sessions should
-    // keep showing what was true when they happened
+    // created
     lecturerName: {
       type: String,
       required: true,
@@ -31,6 +28,11 @@ const sessionSchema = new mongoose.Schema(
       trim: true,
       uppercase: true,
     },
+    location: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     dateTime: {
       type: Date,
       required: true,
@@ -39,10 +41,24 @@ const sessionSchema = new mongoose.Schema(
       type: Number, // minutes
       required: true,
     },
-    qrPayload: {
-      type: String, // AES-encrypted — set by the QR generation service
+     // How long students can scan QR codes, for example: 15 minutes.
+    attendanceWindowMinutes: {
+      type: Number,
+      required: true,
     },
-    expiryTimestamp: {
+
+    // Exact time the attendance window closes.
+    attendanceClosesAt: {
+      type: Date,
+      required: true,
+    },
+    // Hash of only the QR currently displayed.
+    // `select: false` prevents it appearing in normal queries.
+    qrTokenHash: {
+      type: String,
+      select: false,
+    },
+    qrExpiresAt: {
       type: Date, // when the CURRENT qrPayload expires
     },
     status: {
