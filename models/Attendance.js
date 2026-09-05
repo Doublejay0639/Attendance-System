@@ -13,7 +13,7 @@ const attendanceSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending_face_verification, present',  'face_verification_failed'],
+        enum: ['pending_face_verification', 'present',  'face_verification_failed'],
         default: 'pending_face_verification'
     },
     scannedAt: {

@@ -3,9 +3,6 @@ import { AppError } from '../utils/appError.js';
 
 /**
  * `protect` — verifies the JWT on incoming requests.
- * On success, attaches the decoded payload ({ id, role, iat, exp })
- * to req.user, so every downstream controller knows who's calling
- * without re-verifying anything.
  */
 export const protect = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -24,13 +21,7 @@ export const protect = (req, res, next) => {
   }
 };
 
-/**
- * `authorize` — role-based access control.
- * Usage: router.post('/sessions', protect, authorize('lecturer'), createSession)
- * MUST run after `protect`, since it depends on req.user already
- * being set. Order matters here — swapping them would crash on
- * req.user being undefined.
- */
+
 export const authorize =
   (...allowedRoles) =>
   (req, res, next) => {

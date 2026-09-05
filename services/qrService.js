@@ -29,10 +29,6 @@ export const generateSessionQr = async (lecturerId, sessionId) => {
     throw new AppError('This attendance session is closed', 400);
   }
 
-  // A session cannot remain active beyond its configured duration.
-//   const sessionEndsAt = new Date(
-//     session.dateTime.getTime() + session.duration * 60 * 1000
-//   );
 
   if (Date.now() >= session.attendanceClosesAt.getTime()) {
     session.status = 'closed';
@@ -80,7 +76,7 @@ export const generateSessionQr = async (lecturerId, sessionId) => {
     refreshAfterSeconds: QR_TOKEN_TTL_SECONDS,
 
     // The frontend displays these beside/under the QR image.
-    // They are not encoded into the QR itself.
+    // they're not encoded into the QR itself.
     session: {
       id: session._id,
       courseName: session.courseName,
